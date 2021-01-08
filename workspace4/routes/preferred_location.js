@@ -1,14 +1,6 @@
 var express = require('express');
 var toLoction = express.Router();
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    connectionLimit : 10,
-    host : 'localhost',
-    user : 'root',
-    port:3306,
-    database:'project',
-    password : '6124'
-});
+var pool = require('./testmysql');
 
 toLoction.get('/',function(req,res){
   pool.getConnection(function(err, connection){

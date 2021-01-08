@@ -1,20 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    connectionLimit : 10,
-    host : 'localhost',
-    user : 'root',
-    port:3306,
-    database:'project',
-    password : '6124'
-});
+var pool = require('./testmysql');
 
 router.get('/', function(req, res, next){
   res.render('join.ejs');
 });
-
 
 router.post('/', function(req, res, next){
   var USER_ID = req.body.user_id;
@@ -31,11 +21,15 @@ router.post('/', function(req, res, next){
 
   pool.getConnection(function (err, connection)
   {
-    var sqlForInsertMember = "insert into members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) values(?,?,?,?,?,?,?)";
+    if(err)
+      throw err;
+    var sqlForInsertMember = "insert into members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) values(?,?,?,?,?,?,sha2(?, 512))";
     connection.query(sqlForInsertMember, datas, function(err, rows){
         if(err) console.error("err : " + err);
-        console.log("rows: " + JSON.stringify(rows));
-
+        // console.log("rows: " + JSON.stringify(rows));
+        // console.log('===============================');
+        // console.log('connect to mysql db');
+        // console.log('===============================');
         res.redirect('/');
         connection.release();
       });

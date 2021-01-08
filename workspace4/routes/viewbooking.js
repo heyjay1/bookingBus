@@ -1,15 +1,7 @@
 var express = require('express');
 var toBooking = express.Router();
 var passport = require('passport');
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    connectionLimit : 10,
-    host : 'localhost',
-    user : 'root',
-    port:3306,
-    database:'project',
-    password : '6124'
-});
+var pool = require('./testmysql');
 
 toBooking.get('/',function(req,res){
   if(req.user == null)

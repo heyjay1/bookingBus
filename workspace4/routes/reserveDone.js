@@ -1,14 +1,6 @@
 var express = require('express');
 var toReserveDone = express.Router();
-var mysql = require('mysql');
-var pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  port: 3306,
-  database: 'project',
-  password: '6124'
-});
+var pool = require('./testmysql');
 
 toReserveDone.post('/', function(req, res, next) {
   var cur_day = req.body.cur_day;

@@ -55,6 +55,7 @@ var toReserveDone = require('./routes/reserveDone');
 
 var app = express();
 
+var pool = ('./routes/testmysql');
 
 
 app.listen(5000, function() {
@@ -157,6 +158,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

@@ -1,15 +1,6 @@
 var express = require('express');
 var toMain = express.Router();
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    connectionLimit : 10,
-    host : 'localhost',
-    user : 'root',
-    port:3306,
-    database:'project',
-    password : '6124'
-});
-
+var pool = require('./testmysql');
 
 toMain.get('/',function(req,res,next){
 pool.getConnection(function(err, connection){
@@ -32,9 +23,15 @@ pool.getConnection(function(err, connection){
         }
         else
           res.render('main.ejs', {user_id: req.user.user_id, rows: rows});
-    		connection.release();
       }
     });
+
+    // var sqlForMenu = 'select r_name from region';
+    // connection.query(sqlForMenu, function(err, results) {
+    //   if(err) throw err;
+    //   console.log(results);
+    //   res.render('main.ejs', {menu: results});
+    // });
   });
 });
 module.exports = toMain;
