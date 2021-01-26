@@ -19,12 +19,12 @@ toReserveDone.post('/', function(req, res, next) {
     var sql = "insert into reservation(r_date, b_num, r_price, m_num, s_num) values(?,?,?,(select m_num from members where m_id=?),?);";
     var params = [cur_day, cur_bnum, cur_price, req.user.user_id, cur_rSeat];
     connection.query(sql, params, function(err, rows) {
-      res.render('reserveDone.ejs');
+      //res.render('reserveDone.ejs');
       connection.release();
     });
   });
 
-  res.render('reserveDone.ejs');
+  res.render('reserveDone.ejs', {user_id: req.user.user_id});
 });
 
 module.exports = toReserveDone;

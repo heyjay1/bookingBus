@@ -23,15 +23,30 @@ toatt.post('/', function(req, res, next) {
       for (var i = 0; i < rows.length; i++) {
         console.log(rows[i]);
       }
-      res.render('reservation.ejs', {
-        rows: rows,
-        cur_SP: cur_SP,
-        cur_EP: cur_EP,
-        cur_seat: cur_seat,
-        cur_day: cur_day,
-        cur_time: cur_time,
-        cur_bnum: cur_bnum
-      });
+
+      if(req.user == null) {
+        res.render('reservation.ejs', {
+          rows: rows,
+          cur_SP: cur_SP,
+          cur_EP: cur_EP,
+          cur_seat: cur_seat,
+          cur_day: cur_day,
+          cur_time: cur_time,
+          cur_bnum: cur_bnum,
+          user_id : null
+        });
+      } else {
+        res.render('reservation.ejs', {
+          rows: rows,
+          cur_SP: cur_SP,
+          cur_EP: cur_EP,
+          cur_seat: cur_seat,
+          cur_day: cur_day,
+          cur_time: cur_time,
+          cur_bnum: cur_bnum,
+          user_id : req.user.user_id
+        });
+      }
 
       connection.release();
     });

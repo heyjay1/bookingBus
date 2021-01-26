@@ -20,41 +20,7 @@
 </head>
 
 <body>
-  <header>
-    <div class="header">
-      <div class="headTop">
-        <span class="logo">
-          <a href="/">
-            <img class="img-responsive center-block" src="/images/logo.png" alt="logo">
-          </a>
-        </span>
-        <div class="loginArea" style="width:125px;">
-          <!-- loginArea : 로그인 후 -->
-          <%
-            if(user_id != null)
-            {
-          %>
-          <a href="/logout">로그아웃</a>
-          <span>|</span>
-          <a href="/mypage"><%=user_id%>님 환영합니다!</a>
-          <%
-            }
-          %>
-          <!-- 로그인 전 -->
-          <%
-            if(user_id == null)
-            {
-          %>
-          <a href="/login">로그인</a>
-          <span>|</span>
-          <a href="/join">회원가입</a>
-          <%
-            }
-          %>
-        </div>
-      </div>
-    </div>
-  </header>
+  <% include ./header %>
 
   <!-- 사이드 메뉴 -->
     <div id="w3-sidebar w3-light-grey w3-bar-block">
@@ -62,7 +28,7 @@
           <a href="/mypage" title="회원정보수정" class="w3-bar-item w3-button">회원정보수정</a><br>
           <a href="/changepw" title="비밀번호변경" class="w3-bar-item w3-button">비밀번호변경</a><br>
           <a href="/viewbooking" title="예약정보" class="w3-bar-item w3-button">예약정보</a><br>
-          <a href="/dropMember" title="회원탈퇴" class="w3-bar-item w3-button">회원탈퇴</a>
+          <a href="/auth/unsubscribe" title="회원탈퇴" class="w3-bar-item w3-button">회원탈퇴</a>
     </div>
   <div class="container" id="container">
     <h2 style="color: #5e9ca0;">회원정보수정</h2>

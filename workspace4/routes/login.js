@@ -31,16 +31,13 @@ passport.use(new LocalStrategy({
       connection.query(sqlForLoggin, params, function(err, rows){
         if(err) {return done(false, null);}
         else {
-          for(var i=0;i <rows.length; i++)
-            console.log(rows[i]);
           //로그인 성공
           if(rows[0].count == 1){
-            pass = true;
-            return done(null, {'user_id': username});
+            //pass = true;
+            return done(null, {'user_id': username, 'pass' : true});
           }
           //로그인 실패
           else {
-            console.log("로그인실패");
             pass = false;
             return done(false, null);
           }

@@ -17,84 +17,23 @@
 </head>
 
 <body>
-  <header>
-    <div class="header">
-      <div class="headTop">
-        <span class="logo">
-          <a href="/">
-            <img class="img-responsive center-block" src="/images/logo.png" alt="logo">
-          </a>
-        </span>
-        <div class="loginArea" style="width:125px;">
-          <!-- loginArea : 로그인 후 -->
-          <%
-            if(user_id != null)
-            {
-          %>
-          <a href="/logout">로그아웃</a>
-          <span>|</span>
-            <%
-              if(user_id == 'admin') {
-            %>
-            <a href="/admin"><%=user_id%>님 환영합니다!</a>
-            <% } %>
+  <% include ./header %>
+  <nav class="menu">
+    <ul>
+      <!-- 지역메뉴 -->
+      <% for(var i = 0; i < region.length; i++) { %>
+      <a href="/att_page/<%=region[i].r_id%>">
+        <li class="seoul"><span><%=region[i].r_name%></span></li>
+      </a>
+      <%  } %>
 
-            <%
-              if(user_id != 'admin') {
-            %>
-            <a href="/mypage"><%=user_id%>님 환영합니다!</a>
-            <% } %>
-          <%
-            }
-          %>
-          <!-- 로그인 전 -->
-          <%
-            if(user_id == null)
-            {
-          %>
-          <a href="/login">로그인</a>
-          <span>|</span>
-          <a href="/join">회원가입</a>
-          <%
-            }
-          %>
-        </div>
-      </div>
-      <nav class="menu">
-        <ul>
-          <a href="/att_seoul">
-            <li class="seoul"><span></span>서울</li>
-          </a>
-          <a href="/att_busan">
-            <li class="seoul"><span></span>부산</li>
-          </a>
-          <a href="/att_pohang">
-            <li class="seoul"><span></span>포항</li>
-          </a>
-          <a href="/att_sunchun">
-            <li class="seoul"><span></span>순천</li>
-          </a>
-          <a href="/att_gangneung">
-            <li class="seoul"><span></span>강릉</li>
-          </a>
-          <a href="/att_jeonju">
-            <li class="seoul"><span></span>전주</li>
-          </a>
-          <a href="/att_gongju">
-            <li class="seoul"><span></span>공주</li>
-          </a>
-
-          <%
-          if(user_id != 'admin'){
-          %>
-          <a href="/mypage">
-            <li class="mypage"><span></span>MyPage</li>
-          </a>
-          <% } %>
-        </ul>
-      </nav>
-    </div>
-  </header>
+      <% if(user_id != 'admin'){  %>
+      <a href="/mypage">
+        <li class="mypage"><span></span>MyPage</li>
+      </a>
+      <% } %>
+    </ul>
+  </nav>
   <br>
   <br>
   <div class="div_box">
@@ -105,14 +44,13 @@
             <dl class="start">
               <dt><label for="startStay">출발지: </label></dt>
               <dd>
-                <select id="regForm01" class="select" name="TER_FR" title="출발지 선택" onchange="fc_ChangeTer()" tabindex="1">
-                  <option value="1">강릉 </option>
-                  <option value="2">경주 </option>
-                  <option value="3">포항 </option>
-                  <option value="4">부산 </option>
-                  <option value="6">순천 </option>
-                  <option value="7">공주 </option>
-                  <option value="5">서울 </option>
+                <!-- <select id="regForm01" class="select" name="TER_FR" title="출발지 선택" onchange="fc_ChangeTer()" tabindex="1"> -->
+                  <select id="regForm01" class="select" name="TER_FR" title="출발지 선택" tabindex="1">
+                  <% for(var i = 0; i < region.length; i++) { %>
+                  <option value="<%=region[i].r_name%>">
+                    <%=region[i].r_name%>
+                  </option>
+                  <% } %>
                 </select>
               </dd>
             </dl>
@@ -122,7 +60,12 @@
               <dt class="case"><label for="endStay">도착지: </label></dt>
               <dd>
                 <select id="regForm02" class="select" name="TER_TO" title="도착지 선택" tabindex="2">
-                  <option value="5">서울 </option>
+                  <% for(var i = 0; i < region.length; i++) { %>
+                  <option value="<%=region[i].r_name%>">
+                    <%=region[i].r_name%>
+                  </option>
+                  <% } %>
+                  <!-- <option value="5">서울 </option> -->
                 </select>
               </dd>
             </dl>

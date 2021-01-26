@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>순천</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Bootstrap Core CSS -->
+  <link href="/bootstrap-4.1.3-dist/css/bootstrap.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/stylesheets/style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="/javascripts/ui.js"></script>
+  <script src="/javascripts/base.js"></script>
+  <script src="/javascripts/main_js.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="header">
+      <div class="headTop">
+        <span class="logo">
+          <a href="/">
+            <img class="img-responsive center-block" src="/images/logo.png" alt="logo">
+          </a>
+        </span>
+        <!-- loginArea : 로그인 전 -->
+        <div class="loginArea" style="width:125px;">
+          <a href="/login">로그인</a>
+          <span>|</span>
+          <a href="/join">회원가입</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <a href="/att_suncheon">
+      <img class="img-responsive center-block" src="/images/sunchun.png" alt="sunchun_img" style="position:absolute;top:0;left:20%;display:block;width:304px;max-height:50%;margin-left:-270px;">
+    </a>
+
+    <h2><label for="purpose1" style="position:absolute;left:15%;width:304px;margin-left:-152px;">여행지 추천</label></h2>
+    <div id="sub_contents" class="conbody">
+      <form action="/tour/my_tour" id="course_search" name="course_search" method="post">
+        <input type="hidden" name="search_word" id="search_word">
+        <div class="checkbox2">
+          <div class="checks2 group">
+            <div class="item">
+              <a href="/course_family">
+                <img class="img-responsive center-block" src="/images/family_course.png">
+                <label for="purpose0">가족여행</label>
+              </a>
+            </div>
+            <div class="item">
+              <a href="/course_friend">
+                <img class="img-responsive center-block" src="/images/friend_course.png">
+                <label for="purpose1">우정여행</label>
+              </a>
+            </div>
+            <div class="item">
+              <a href="/course_couple">
+                <img class="img-responsive center-block" src="/images/couple_course.png">
+                <label for="purpose2">커플여행</label>
+              </a>
+            </div>
+            <div class="item">
+              <a href="/course_alone">
+                <img class="img-responsive center-block" src="/images/alone_course.png">
+                <label for="purpose3">나혼자여행</label>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div><br></div>
+      </form>
+
+      <div class="board">
+
+        <div class="magT20"></div> <!-- 높이띄우기용 탑마진20 빈div -->
+
+        <p class="total_text">총 <em><%=rows.length%></em> 개의 콘텐츠가 있습니다.</p>
+        <div class="board_list">
+          <%
+          for(var i = 0; i<rows.length; i++){
+            att = rows[i];
+            if(att.a_name == "광안리 해수욕장")
+              var subUrl = '/att_busan/busan_detail_gwangalli';
+            if(att.a_name == "다대포 해수욕장")
+              var subUrl = '/att_busan/busan_detail_dadaepo';
+          %>
+
+          <div class="list_li">
+            <div class="simg">
+              <a href="<%=subUrl%>"><img src="<%=att.a_path%>" alt=<%=att.a_name%> width="230" height="130" style="left:30%;display:block;margin-left:50px;">
+            </div>
+            <div class="text_box">
+              <h3><%=att.a_name%></h3>
+              <p class="text">
+                <%
+                  if(att.a_context.length>100){
+                %>
+                    <%=att.a_context.slice(0,100)%> .  .  .
+                <%
+                  }
+                  else{
+                %>
+                    <%=att.a_context.slice(0,att.a_context.length)%> .  .  .
+                <%
+                  }
+                %>
+              </p>
+              <ul class="text_icon fl">
+
+                <li><img src="/images/board/board_list_icon1.gif" width="15" height="14" alt="주소" class="vam"><%=att.a_address%></li>
+                <li><img src="/images/board/board_list_icon2.gif" width="15" height="14" alt="전화번호" class="vam"><%=att.a_phonenum%></li>
+
+              </ul>
+
+              <a href="<%=att.a_url%>"><button class="button01 fr">상세보기</button></a>
+            </div></a>
+          </div>
+          <%
+        }
+        %>
+        <div class="brclear"></div>
+      </div>
+
+  </nav>
+</body>
+
+</html>

@@ -10,7 +10,11 @@ router.get('/:detailPageId', function(req, res, next) {
       //db에서 관광지 갖고오기
       var sql = "SELECT * FROM attraction WHERE a_id = ?;";
       connection.query(sql, [req.params.detailPageId], function(err, rows){
-        res.render('att_detail.ejs', {a_name: rows[0].a_name, rows: rows})
+        if(req.user == null) {
+          res.render('att_detail.ejs', {a_name: rows[0].a_name, rows: rows, user_id: null});
+        } else {
+          res.render('att_detail.ejs', {a_name: rows[0].a_name, rows: rows, user_id: req.user.user_id});
+        }
       });
       connection.release();
     });

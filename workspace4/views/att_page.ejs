@@ -24,23 +24,7 @@
 </head>
 
 <body>
-  <header>
-    <div class="header">
-      <div class="headTop">
-        <span class="logo">
-          <a href="/">
-            <img class="img-responsive center-block" src="/images/logo.png" alt="logo">
-          </a>
-        </span>
-        <!-- loginArea : 로그인 전 -->
-        <div class="loginArea" style="width:125px;">
-          <a href="/login">로그인</a>
-          <span>|</span>
-          <a href="/join">회원가입</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <% include ./header %>
   <nav>
     <!-- <a href="/att_busan">
       <img class="img-responsive center-block" src="/images/busan.png" alt="busan_img" style="position:absolute;top:0;left:20%;display:block;width:304px;max-height:50%;margin-left:-270px;">
@@ -48,38 +32,7 @@
 
     <h2><label for="purpose1" style="position:absolute;left:15%;width:304px;margin-left:-152px;">여행지 추천</label></h2>
     <div id="sub_contents" class="conbody">
-      <form action="/tour/my_tour" id="course_search" name="course_search" method="post">
-        <input type="hidden" name="search_word" id="search_word">
-        <div class="checkbox2">
-          <div class="checks2 group">
-            <div class="item">
-              <a href="/course_family">
-                <img class="img-responsive center-block" src="/images/family_course.png">
-                <label for="purpose0">가족여행</label>
-              </a>
-            </div>
-            <div class="item">
-              <a href="/course_friend">
-                <img class="img-responsive center-block" src="/images/friend_course.png">
-                <label for="purpose1">우정여행</label>
-              </a>
-            </div>
-            <div class="item">
-              <a href="/course_couple">
-                <img class="img-responsive center-block" src="/images/couple_course.png">
-                <label for="purpose2">커플여행</label>
-              </a>
-            </div>
-            <div class="item">
-              <a href="/course_alone">
-                <img class="img-responsive center-block" src="/images/alone_course.png">
-                <label for="purpose3">나혼자여행</label>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div><br></div>
-      </form>
+      <% include ./course_menu %>
 
       <div class="board">
 

@@ -32,16 +32,11 @@
       });
     </script>
 
-    <%
-      if(pass == false)
-      {
-    %>
+    <% if(pass == false) { %>
       <script type="text/javascript">
         alert("아이디 또는 비밀번호를 확인해주세요");
       </script>
-    <%
-      }
-    %>
+    <% } %>
 
   </head>
 
@@ -55,16 +50,16 @@
         </span>
         <!-- loginArea : 로그인 전 -->
         <div class="loginArea" style="width:125px;">
-          <a href="/login">로그인</a>
+          <a href="/auth/login">로그인</a>
           <span>|</span>
-          <a href="/join">회원가입</a>
+          <a href="/auth/join">회원가입</a>
         </div>
       </div>
     </div>
   </header>
 
   <body>
-    <form action="/login" method="post" id="frm_login" name="frm_login">
+    <form action="/auth/login" method="post" id="frm_login" name="frm_login">
       <div class="border-box box_changeNum">
   			<div class="inner">
   				<div class="box_inputForm">

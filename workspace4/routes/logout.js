@@ -8,6 +8,13 @@ toLogout.get('/',function(req,res){
   req.logout();
   // res.render('main.ejs', {user_id: null});
   pool.getConnection(function(err, connection){
+    var region_data;
+    //db에서 지역 갖고오기
+    var sql = "select r_name, r_id from region;";
+    connection.query(sql, function(err, rows){
+      region_data = rows;
+    });
+
       var today = new Date();
       var month = today.getUTCMonth() + 1; //months from 1-12
       var day = today.getUTCDate();
@@ -23,10 +30,10 @@ toLogout.get('/',function(req,res){
             console.log(rows[i]);
           }
           if(req.user == null){
-              res.render('main.ejs', {user_id: null, rows:rows});
+              res.render('main.ejs', {user_id: null, rows:rows, region : region_data});
           }
           else
-            res.render('main.ejs', {user_id: req.user.user_id, rows: rows});
+            res.render('main.ejs', {user_id: req.user.user_id, rows: rows, region : region_data});
       		connection.release();
         }
       });

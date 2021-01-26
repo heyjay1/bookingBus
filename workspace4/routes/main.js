@@ -4,6 +4,14 @@ var pool = require('./testmysql');
 
 toMain.get('/',function(req,res,next){
 pool.getConnection(function(err, connection){
+  var region_data;
+  //db에서 지역 갖고오기
+  var sql = "select r_name, r_id from region;";
+  connection.query(sql, function(err, rows){
+    region_data = rows;
+  });
+
+    //광고노출
     var today = new Date();
     var month = today.getUTCMonth() + 1; //months from 1-12
     var day = today.getUTCDate();
@@ -19,19 +27,12 @@ pool.getConnection(function(err, connection){
           console.log(rows[i]);
         }
         if(req.user == null){
-            res.render('main.ejs', {user_id: null, rows:rows});
+            res.render('main.ejs', {user_id: null, rows:rows, region : region_data});
         }
         else
-          res.render('main.ejs', {user_id: req.user.user_id, rows: rows});
+          res.render('main.ejs', {user_id: req.user.user_id, rows: rows, region : region_data});
       }
     });
-
-    // var sqlForMenu = 'select r_name from region';
-    // connection.query(sqlForMenu, function(err, results) {
-    //   if(err) throw err;
-    //   console.log(results);
-    //   res.render('main.ejs', {menu: results});
-    // });
   });
 });
 module.exports = toMain;

@@ -19,20 +19,30 @@ router.post('/', function(req, res, next){
   var USER_NUMBER = req.body.human_number;
   var datas = [USER_NAME, USER_NUMBER,USER_MAIL,USER_TEL,USER_SEX,USER_ID, USER_PASS];
 
-  pool.getConnection(function (err, connection)
-  {
+  pool.getConnection(function (err, connection) {
     if(err)
       throw err;
-    var sqlForInsertMember = "insert into members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) values(?,?,?,?,?,?,sha2(?, 512))";
-    connection.query(sqlForInsertMember, datas, function(err, rows){
-        if(err) console.error("err : " + err);
-        // console.log("rows: " + JSON.stringify(rows));
-        // console.log('===============================');
-        // console.log('connect to mysql db');
-        // console.log('===============================');
-        res.redirect('/');
-        connection.release();
-      });
+    //아이디 중복 검사
+    var sqlForCheckID = "SELECT COUNT(*) as result FROM members WHERE m_id = ?";
+    var IDCheck = [USER_ID];
+    connection.query(sqlForCheckID, IDCheck, function(err, rows) {
+      if(err) throw err;
+      if(rows[0].result > 0) {
+        console.log(rows[0].result);
+        res.render('join.ejs', {IDCheck : false});
+      }
+    });
+    //회원가입
+    // var sqlForInsertMember = "INSERT INTO members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) VALUES(?,?,?,?,?,?,sha2(?, 512))";
+    // connection.query(sqlForInsertMember, datas, function(err, rows){
+    //     if(err) throw err;
+    //     // console.log("rows: " + JSON.stringify(rows));
+    //     // console.log('===============================');
+    //     // console.log('connect to mysql db');
+    //     // console.log('===============================');
+    //     res.redirect('/');
+    //     connection.release();
+    //   });
     });
 });
 
