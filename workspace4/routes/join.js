@@ -22,16 +22,6 @@ router.post('/', function(req, res, next){
   pool.getConnection(function (err, connection) {
     if(err)
       throw err;
-    //아이디 중복 검사
-    var sqlForCheckID = "SELECT COUNT(*) as result FROM members WHERE m_id = ?";
-    var IDCheck = [USER_ID];
-    connection.query(sqlForCheckID, IDCheck, function(err, rows) {
-      if(err) throw err;
-      if(rows[0].result > 0) {
-        console.log(rows[0].result);
-        res.render('join.ejs', {IDCheck : false});
-      }
-    });
     //회원가입
     // var sqlForInsertMember = "INSERT INTO members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) VALUES(?,?,?,?,?,?,sha2(?, 512))";
     // connection.query(sqlForInsertMember, datas, function(err, rows){
@@ -45,5 +35,9 @@ router.post('/', function(req, res, next){
     //   });
     });
 });
+
+
+
+
 
 module.exports = router;

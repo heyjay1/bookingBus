@@ -26,16 +26,6 @@ router.post('/join', function(req, res, next){
   pool.getConnection(function (err, connection) {
     if(err)
       throw err;
-    //아이디 중복 검사
-    // var sqlForCheckID = "SELECT COUNT(*) as result FROM members WHERE m_id = ?";
-    // var IDCheck = [USER_ID];
-    // connection.query(sqlForCheckID, IDCheck, function(err, rows) {
-    //   if(err) throw err;
-    //   if(rows[0].result > 0) {
-    //     console.log(rows[0].result);
-    //     res.render('join.ejs', {'IDCheck' : false});
-    //   }
-    // });
     //회원가입
     var sqlForInsertMember = "INSERT INTO members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) VALUES(?,?,?,?,?,?,sha2(?, 512))";
     connection.query(sqlForInsertMember, datas, function(err, rows){
@@ -45,6 +35,34 @@ router.post('/join', function(req, res, next){
       });
     });
 });
+
+//회원가입 - 아이디 중복 체크
+router.get('/join/idcheck', function(req, res, next) {
+  console.log("here is auth.js");
+  console.log(req.body.user_id);
+  res.render('idcheck.ejs', {user_id: null, pass : null});
+});
+
+router.post('/join/idcheck', function(req, res, next) {
+  //아이디 중복 검사
+  var sqlForCheckID = "SELECT COUNT(*) as result FROM members WHERE m_id = ?";
+  var IDCheck = req.body.user_id;
+  pool.getConnection(function(err, connection) {
+    connection.query(sqlForCheckID, IDCheck, function(err, rows) {
+
+      if(err) throw err;
+      //중복아이디가 존재하는 경우
+      if(rows[0].result > 0) {
+        res.render('idcheck.ejs', {user_id: IDCheck, pass : false});
+      }
+      //중복 아이디가 존재하지 않는 경우
+      else {
+        res.render('idcheck.ejs', {user_id: IDCheck, pass : true});
+      }
+    });
+  });
+});
+
 
 //로그인
 router.get('/login',function(req,res){
@@ -134,7 +152,6 @@ router.get('/logout',function(req,res){
 });
 
 //회원탈퇴
-
 router.get('/unsubscribe',function(req,res){
   if(req.user == null)
     res.render('dropMember.ejs', {user_id: null});
