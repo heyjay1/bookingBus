@@ -29,6 +29,7 @@ passport.use(new LocalStrategy({
     pool.getConnection(function(err, connection){
       var sqlForLoggin = "select count(*) as count from members where m_id = ? and m_password = ?;";
       connection.query(sqlForLoggin, params, function(err, rows){
+        console.log("here is login.js");
         if(err) {return done(false, null);}
         else {
           //로그인 성공

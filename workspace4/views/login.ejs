@@ -12,24 +12,36 @@
     <link href="/stylesheets/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script type="text/javascript">
-      $(function(){
-        $("#btnLogin").click(
-          function() {
-            if($("#username").val() == ""){
-              alert("아이디를 꼭 입력하세요");
-              $("#username").focus();
-              return;
-            }
-            if($("#password").val() == ""){
-              alert("비밀번호를 꼭 입력하세요");
-              $("#password").focus();
-              return;
-            }
+      function login() {
+        $("#Login").submit();
 
-            $("#Login").submit();
-          }
-        );
-      });
+        <% if(pass == false) { %>
+          alert("아이디 또는 비밀번호를 확인해주세요");
+        <% } %>
+      }
+
+      // $(function(){
+      //   $("#btnLogin").click(
+      //     function() {
+      //       if($("#username").val() == ""){
+      //         alert("아이디를 꼭 입력하세요");
+      //         $("#username").focus();
+      //         return;
+      //       }
+      //       if($("#password").val() == ""){
+      //         alert("비밀번호를 꼭 입력하세요");
+      //         $("#password").focus();
+      //         return;
+      //       }
+      //
+      //       $("#Login").submit();
+      //
+      //       <% if(pass == false) { %>
+      //         alert("아이디 또는 비밀번호를 확인해주세요");
+      //       <% } %>
+      //     }
+      //   );
+      // });
     </script>
 
     <% if(pass == false) { %>
@@ -79,7 +91,7 @@
         </div>
   		</div>
       <div class="jy">
-        <input type="submit" class="btn btn-success" id="btnLogin" name="Login" value="Login">
+        <input type="submit" class="btn btn-success" id="btnLogin" name="Login" value="Login" onclick="login();">
       </div>
     </form>
   </body>

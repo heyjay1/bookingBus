@@ -4,32 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
-//var LocalStrategy = require('passport-local').Strategy;
 var flash    = require('connect-flash');
 var cookieSession = require('cookie-session');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var toMain = require('./routes/main');
-
 var auth = require('./routes/auth');
-// var toJoin = require('./routes/join');
-// var toLogin = require('./routes/login');
-// var toLogout = require('./routes/logout');
-// var toDropMember = require('./routes/dropMember');
-
 var buyticket = require('./routes/buy_ticket');
-
-// new!!
 var toatt_page = require('./routes/att_page');
 var toatt_detail = require('./routes/att_detail');
-
 var course = require('./routes/course');
-// var course_family = require('./routes/course_family');
-// var course_friend = require('./routes/course_friend');
-// var course_couple = require('./routes/course_couple');
-// var course_alone = require('./routes/course_alone');
-
 var toAdmin = require('./routes/admin_page');
 var toLoction = require('./routes/preferred_location');
 var toDrivingInfo = require('./routes/drivingInfo');
@@ -71,23 +55,11 @@ app.use("/script", express.static(__dirname + "/routes"));
 
 app.use('/main',toMain);
 app.use('/',toMain);
-
 app.use('/auth', auth);
-//app.use('/login',toLogin);
-// app.use('/join',toJoin);
-// app.use('/logout', toLogout);
-// app.use('/dropMember', toDropMember);
  app.use('/buy_ticket',buyticket);
-
 app.use('/att_page', toatt_page);
 app.use('/detail', toatt_detail);
-
 app.use('/course', course);
-// app.use('/course_family',course_family);
-// app.use('/course_friend',course_friend);
-// app.use('/course_couple',course_couple);
-// app.use('/course_alone',course_alone);
-
 app.use('/mypage', toMyPage);
 app.use('/viewbooking', toBooking);
 app.use('/changepw', toChangePw);

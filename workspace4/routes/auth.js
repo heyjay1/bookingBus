@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var pool = require('./testmysql');
 
 
@@ -27,10 +28,10 @@ router.post('/join', function(req, res, next){
     if(err)
       throw err;
     //회원가입
-    var sqlForInsertMember = "INSERT INTO members(m_name, m_address,m_mail,m_hp,m_sex,m_id, m_password) VALUES(?,?,?,?,?,?,sha2(?, 512))";
+    var sqlForInsertMember = "INSERT INTO members(m_name, m_birth,m_mail,m_hp,m_sex,m_id, m_password) VALUES(?,?,?,?,?,?,sha2(?, 512))";
     connection.query(sqlForInsertMember, datas, function(err, rows){
         if(err) throw err;
-        res.redirect('/');
+        res.redirect('/auth/login');
         connection.release();
       });
     });
@@ -66,20 +67,29 @@ router.post('/join/idcheck', function(req, res, next) {
 
 //로그인
 router.get('/login',function(req,res){
-  res.render('login.ejs', {pass: null});
+  var fmsg = req.flash();
+  console.log(fmsg);
+  var pass;
+  if(fmsg.success) {          //로그인성공
+    pass = true;
+  } else if(fmsg.error) {     //로그인실패
+    pass = false;
+  } else {                    //최초로 로그인페이지에 접속
+    pass = null;
+  }
+  console.log(pass);
+  res.render('login.ejs', {pass});
 });
 
-router.post('/login', passport.authenticate(
-  'local', {failureRedirect: '/auth/login', failureFlash: true}),
-  function(req, res) {
-    console.log("user: " + req.user.user_id);
-    if(pass)
-      res.redirect('/main');
-    else
-      res.render('login.ejs', {pass: pass});
-  }
-);
+router.post('/login', passport.authenticate( 'local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    failureFlash: true,
+    successFlash: true
+  }));
 
+
+//로그인 local strategy
 passport.use(new LocalStrategy({
   usernameField: 'username',
   passwordField: 'password',
@@ -94,17 +104,30 @@ passport.use(new LocalStrategy({
           //로그인 성공
           if(rows[0].count == 1){
             pass = true;
-            return done(null, {'user_id': username});
+            return done(null, {'user_id': username, message: 'login success'});
           }
           //로그인 실패
           else {
             pass = false;
-            return done(false, null);
+            return done(null, false, {message: 'login failure'});
           }
         }
       });
     });
 }));
+
+//login GoogleStrategy
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://www.example.com/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+         return done(err, user);
+       });
+  }
+));
 
 passport.serializeUser(function(user, done){
   done(null, user)
@@ -117,38 +140,7 @@ passport.deserializeUser(function(user, done) {
 //로그아웃
 router.get('/logout',function(req,res){
   req.logout();
-  // res.render('main.ejs', {user_id: null});
-  pool.getConnection(function(err, connection){
-    var region_data;
-    //db에서 지역 갖고오기
-    var sql = "select r_name, r_id from region;";
-    connection.query(sql, function(err, rows){
-      region_data = rows;
-    });
-
-      var today = new Date();
-      var month = today.getUTCMonth() + 1; //months from 1-12
-      var day = today.getUTCDate();
-      var year = today.getUTCFullYear();
-
-      today = year + "-" + month + "-" + day;
-      console.log(today);
-      var sqlForSelect = "select * from region where ? between start_date and finish_date;";
-      connection.query(sqlForSelect,today, function(err, rows){
-        if(err) {console.log(err);}
-        else {
-          for (var i = 0; i < rows.length; i++) {
-            console.log(rows[i]);
-          }
-          if(req.user == null){
-              res.render('main.ejs', {user_id: null, rows:rows, region : region_data});
-          }
-          else
-            res.render('main.ejs', {user_id: req.user.user_id, rows: rows, region : region_data});
-      		connection.release();
-        }
-      });
-    });
+  res.redirect('/');
 });
 
 //회원탈퇴
