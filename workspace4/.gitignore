@@ -1,7 +1,8 @@
-/routes/password.js
-/routes/login.js
-/routes/join.js
-/routes/course_alone.js
-/routes/course_couple.js
-/routes/course_family.js
-/routes/course_friend.js
+routes/password.js
+routes/login.js
+routes/join.js
+routes/course_alone.js
+routes/course_couple.js
+routes/course_family.js
+routes/course_friend.js
+config/google.json
