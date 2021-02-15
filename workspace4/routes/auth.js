@@ -90,9 +90,13 @@ router.get('/login', function(req, res) {
   } else {
     userId = req.user.user_id;
   }
+<<<<<<< HEAD
 
 
   console.log("pass: ", pass, "user_id: " , userId);
+=======
+
+>>>>>>> 65cbb94f96b440ff3dc23f85217344fdd4114372
   res.render('login.ejs', {
     pass,
     user_id: userId
