@@ -421,7 +421,6 @@ function fnTckSumInfo(btkc, cnt) {
 }
 
 function fnSum() {
-  alert("hey");
   var sel0 = Number($("#sel0").val());
   var sel1 = Number($("#sel1").val());
   var p0 = Number($("#label0").val());

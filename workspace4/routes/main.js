@@ -4,6 +4,7 @@ var pool = require('./testmysql');
 
 toMain.get('/',function(req,res,next){
 pool.getConnection(function(err, connection){
+  if(err) throw err;
   var region_data;
   //db에서 지역 갖고오기
   var sql = "select r_name, r_id from region;";
@@ -18,14 +19,10 @@ pool.getConnection(function(err, connection){
     var year = today.getUTCFullYear();
 
     today = year + "-" + month + "-" + day;
-    console.log(today);
     var sqlForSelect = "select * from region where ? between start_date and finish_date;";
     connection.query(sqlForSelect,today, function(err, rows){
       if(err) {console.log(err);}
       else {
-        for (var i = 0; i < rows.length; i++) {
-          console.log(rows[i]);
-        }
         if(req.user == null){
             res.render('main.ejs', {user_id: null, rows:rows, region : region_data});
         }

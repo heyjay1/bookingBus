@@ -9,17 +9,4 @@ var pool = mysql.createPool({
     password : password
 });
 
-pool.getConnection(function(err, connection) {
-  if(err)
-    console.log(err);
-  // else {
-  //   pool.query('SELECT * FROM bus', function(err, results, fields) {
-  //     if (err) {
-  //       console.log(err);
-  //     }
-  //     console.log(results);
-  //   });
-  // }
-});
-
 module.exports = pool;

@@ -14,34 +14,7 @@
     <script type="text/javascript">
       function login() {
         $("#Login").submit();
-
-        <% if(pass == false) { %>
-          alert("아이디 또는 비밀번호를 확인해주세요");
-        <% } %>
       }
-
-      // $(function(){
-      //   $("#btnLogin").click(
-      //     function() {
-      //       if($("#username").val() == ""){
-      //         alert("아이디를 꼭 입력하세요");
-      //         $("#username").focus();
-      //         return;
-      //       }
-      //       if($("#password").val() == ""){
-      //         alert("비밀번호를 꼭 입력하세요");
-      //         $("#password").focus();
-      //         return;
-      //       }
-      //
-      //       $("#Login").submit();
-      //
-      //       <% if(pass == false) { %>
-      //         alert("아이디 또는 비밀번호를 확인해주세요");
-      //       <% } %>
-      //     }
-      //   );
-      // });
     </script>
 
     <% if(pass == false) { %>
@@ -49,26 +22,9 @@
         alert("아이디 또는 비밀번호를 확인해주세요");
       </script>
     <% } %>
-
   </head>
 
-  <header>
-    <div class="header">
-      <div class="headTop">
-        <span class="logo">
-          <a href="/">
-            <img class="img-responsive center-block" src="/images/logo.png" alt="logo">
-          </a>
-        </span>
-        <!-- loginArea : 로그인 전 -->
-        <div class="loginArea" style="width:125px;">
-          <a href="/auth/login">로그인</a>
-          <span>|</span>
-          <a href="/auth/join">회원가입</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <% include ./header %>
 
   <body>
     <form action="/auth/login" method="post" id="frm_login" name="frm_login">

@@ -23,7 +23,6 @@ buyticket.post('/', function(req, res, next) {
   sql += "select * from bus where b_SP=? and b_EP=?;";
 
   pool.query(sql, datas, function(err, rows) {
-    //console.log('rows : ', rows);
     if(req.user == null)
       res.render('buy_ticket.ejs', {rows: rows, currentDay: day, user_id: null});
     else
